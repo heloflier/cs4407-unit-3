@@ -14,6 +14,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from tabulate import tabulate
 
@@ -175,3 +176,19 @@ logistic_regression_model.fit(X_train_scaled, y_train)
 logistic_regression_predictions = logistic_regression_model.predict(X_test_scaled)
 
 print(f"\nTest accuracy: {accuracy_score(y_test, logistic_regression_predictions):.4f}")
+
+# ---------------------------------------------------------------------------
+# Step 8 / Question 2B.b: K-Nearest Neighbors classifier
+# ---------------------------------------------------------------------------
+# Reuses the scaler fit in Question 2B.a, since KNN's distance calculation
+# is scale-sensitive too.
+
+print("\n" + "=" * 70)
+print("QUESTION 2B.b: K-NEAREST NEIGHBORS CLASSIFIER")
+print("=" * 70)
+
+knn_model = KNeighborsClassifier(n_neighbors=5)
+knn_model.fit(X_train_scaled, y_train)
+knn_predictions = knn_model.predict(X_test_scaled)
+
+print(f"\nTest accuracy: {accuracy_score(y_test, knn_predictions):.4f}")
