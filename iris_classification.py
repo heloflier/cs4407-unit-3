@@ -15,6 +15,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from tabulate import tabulate
 
@@ -192,3 +193,18 @@ knn_model.fit(X_train_scaled, y_train)
 knn_predictions = knn_model.predict(X_test_scaled)
 
 print(f"\nTest accuracy: {accuracy_score(y_test, knn_predictions):.4f}")
+
+# ---------------------------------------------------------------------------
+# Step 9 / Question 2B.c: Support Vector Machine classifier
+# ---------------------------------------------------------------------------
+# Reuses the same scaled features as Logistic Regression and KNN.
+
+print("\n" + "=" * 70)
+print("QUESTION 2B.c: SUPPORT VECTOR MACHINE CLASSIFIER")
+print("=" * 70)
+
+svm_model = SVC(random_state=42)  # fixed seed for reproducible results
+svm_model.fit(X_train_scaled, y_train)
+svm_predictions = svm_model.predict(X_test_scaled)
+
+print(f"\nTest accuracy: {accuracy_score(y_test, svm_predictions):.4f}")
