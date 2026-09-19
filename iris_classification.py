@@ -9,6 +9,7 @@ from the Iris dataset.
 
 import pandas as pd
 from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
 from tabulate import tabulate
 
 pd.set_option("display.max_columns", None)
@@ -46,16 +47,16 @@ print("\nDataset shape:", df.shape)
 # ---------------------------------------------------------------------------
 # Iris is a classic benchmark dataset: balanced classes (50/50/50) make accuracy
 # a reasonably fair metric, unlike on an imbalanced dataset.
- 
+
 print("\n" + "=" * 70)
 print("QUESTION 1b: DESCRIBE DATASET CHARACTERISTICS")
 print("=" * 70)
- 
+
 print(f"\nNumber of samples: {df.shape[0]}")
 print(f"Number of features: {len(iris_data.feature_names)}")
 print(f"Feature names: {iris_data.feature_names}")
 print(f"Target classes: {[str(name) for name in iris_data.target_names]}")
- 
+
 print("\nClass distribution:")
 print(
     tabulate(
@@ -65,7 +66,7 @@ print(
         showindex=False,
     )
 )
- 
+
 print("\nFeature summary statistics:")
 print(
     tabulate(
@@ -74,3 +75,26 @@ print(
         tablefmt="fancy_grid",
     )
 )
+
+# ---------------------------------------------------------------------------
+# Step 3 / Question 1c: Train/test split
+# ---------------------------------------------------------------------------
+# Stratifying keeps the 50/50/50 class balance in both splits.
+
+print("\n" + "=" * 70)
+print("QUESTION 1c: TRAIN/TEST SPLIT")
+print("=" * 70)
+
+X = df[iris_data.feature_names]  # features
+y = df["species"]  # target (numeric species label)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
+
+print(f"\nTraining set size: {len(X_train)} rows")
+print(f"Test set size: {len(X_test)} rows")
+print("\nTraining set class distribution:")
+print(y_train.map(species_names).value_counts())
+print("\nTest set class distribution:")
+print(y_test.map(species_names).value_counts())
