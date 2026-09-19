@@ -11,6 +11,7 @@ import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from tabulate import tabulate
 
@@ -137,3 +138,18 @@ def classify_by_rules(row):
 rule_based_predictions = X_test.apply(classify_by_rules, axis=1)
 
 print(f"\nTest accuracy: {accuracy_score(y_test, rule_based_predictions):.4f}")
+
+# ---------------------------------------------------------------------------
+# Step 6 / Question 2A.c: Naive Bayes classifier
+# ---------------------------------------------------------------------------
+# GaussianNB, since all four features are continuous measurements.
+
+print("\n" + "=" * 70)
+print("QUESTION 2A.c: NAIVE BAYES CLASSIFIER")
+print("=" * 70)
+
+naive_bayes_model = GaussianNB()
+naive_bayes_model.fit(X_train, y_train)
+naive_bayes_predictions = naive_bayes_model.predict(X_test)
+
+print(f"\nTest accuracy: {accuracy_score(y_test, naive_bayes_predictions):.4f}")
