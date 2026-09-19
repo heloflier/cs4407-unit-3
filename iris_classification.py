@@ -12,6 +12,8 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from tabulate import tabulate
 
@@ -136,7 +138,6 @@ def classify_by_rules(row):
         return 2  # virginica
 
 rule_based_predictions = X_test.apply(classify_by_rules, axis=1)
-
 print(f"\nTest accuracy: {accuracy_score(y_test, rule_based_predictions):.4f}")
 
 # ---------------------------------------------------------------------------
@@ -153,3 +154,24 @@ naive_bayes_model.fit(X_train, y_train)
 naive_bayes_predictions = naive_bayes_model.predict(X_test)
 
 print(f"\nTest accuracy: {accuracy_score(y_test, naive_bayes_predictions):.4f}")
+
+# ---------------------------------------------------------------------------
+# Step 7 / Question 2B.a: Logistic Regression classifier
+# ---------------------------------------------------------------------------
+# Logistic Regression, KNN, and SVM are all scale-sensitive; unscaled,
+# Logistic Regression failed to converge within the default iteration
+# limit. The added scaler is reused for KNN and SVM as well.
+
+print("\n" + "=" * 70)
+print("QUESTION 2B.a: LOGISTIC REGRESSION CLASSIFIER")
+print("=" * 70)
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+logistic_regression_model = LogisticRegression(random_state=42)  # fixed seed for reproducible results
+logistic_regression_model.fit(X_train_scaled, y_train)
+logistic_regression_predictions = logistic_regression_model.predict(X_test_scaled)
+
+print(f"\nTest accuracy: {accuracy_score(y_test, logistic_regression_predictions):.4f}")
