@@ -40,3 +40,37 @@ print(
 )
 
 print("\nDataset shape:", df.shape)
+
+# ---------------------------------------------------------------------------
+# Step 2 / Question 1b: Describe dataset characteristics
+# ---------------------------------------------------------------------------
+# Iris is a classic benchmark dataset: balanced classes (50/50/50) make accuracy
+# a reasonably fair metric, unlike on an imbalanced dataset.
+ 
+print("\n" + "=" * 70)
+print("QUESTION 1b: DESCRIBE DATASET CHARACTERISTICS")
+print("=" * 70)
+ 
+print(f"\nNumber of samples: {df.shape[0]}")
+print(f"Number of features: {len(iris_data.feature_names)}")
+print(f"Feature names: {iris_data.feature_names}")
+print(f"Target classes: {[str(name) for name in iris_data.target_names]}")
+ 
+print("\nClass distribution:")
+print(
+    tabulate(
+        df["species_name"].value_counts().rename_axis("species").reset_index(name="count"),
+        headers="keys",
+        tablefmt="fancy_grid",
+        showindex=False,
+    )
+)
+ 
+print("\nFeature summary statistics:")
+print(
+    tabulate(
+        df[iris_data.feature_names].describe(),
+        headers="keys",
+        tablefmt="fancy_grid",
+    )
+)
