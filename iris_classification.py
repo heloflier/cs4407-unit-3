@@ -10,6 +10,8 @@ from the Iris dataset.
 import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 from tabulate import tabulate
 
 pd.set_option("display.max_columns", None)
@@ -98,3 +100,17 @@ print("\nTraining set class distribution:")
 print(y_train.map(species_names).value_counts())
 print("\nTest set class distribution:")
 print(y_test.map(species_names).value_counts())
+
+# ---------------------------------------------------------------------------
+# Step 4 / Question 2A.a: Decision Tree classifier
+# ---------------------------------------------------------------------------
+
+print("\n" + "=" * 70)
+print("QUESTION 2A.a: DECISION TREE CLASSIFIER")
+print("=" * 70)
+
+decision_tree_model = DecisionTreeClassifier(random_state=42)  # fixed seed for reproducible results
+decision_tree_model.fit(X_train, y_train)
+decision_tree_predictions = decision_tree_model.predict(X_test)  # test on held-out data
+
+print(f"\nTest accuracy: {accuracy_score(y_test, decision_tree_predictions):.4f}")
