@@ -114,3 +114,26 @@ decision_tree_model.fit(X_train, y_train)
 decision_tree_predictions = decision_tree_model.predict(X_test)  # test on held-out data
 
 print(f"\nTest accuracy: {accuracy_score(y_test, decision_tree_predictions):.4f}")
+
+# ---------------------------------------------------------------------------
+# Step 5 / Question 2A.b: Rule-based (if-else) classifier
+# ---------------------------------------------------------------------------
+# Thresholds derived from training data: petal length cleanly separates
+# setosa (max 1.9) from the other two (min 3.0); petal width splits
+# versicolor/virginica near the midpoint of their class means (1.31, 2.07).
+
+print("\n" + "=" * 70)
+print("QUESTION 2A.b: RULE-BASED (IF-ELSE) CLASSIFIER")
+print("=" * 70)
+
+def classify_by_rules(row):
+    if row["petal length (cm)"] < 2.5:
+        return 0  # setosa
+    elif row["petal width (cm)"] < 1.7:
+        return 1  # versicolor
+    else:
+        return 2  # virginica
+
+rule_based_predictions = X_test.apply(classify_by_rules, axis=1)
+
+print(f"\nTest accuracy: {accuracy_score(y_test, rule_based_predictions):.4f}")
