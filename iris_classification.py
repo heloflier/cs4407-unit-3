@@ -16,9 +16,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 from tabulate import tabulate
-
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", None)
 
@@ -208,3 +207,33 @@ svm_model.fit(X_train_scaled, y_train)
 svm_predictions = svm_model.predict(X_test_scaled)
 
 print(f"\nTest accuracy: {accuracy_score(y_test, svm_predictions):.4f}")
+
+# ---------------------------------------------------------------------------
+# Step 10 / Question 3a: Confusion matrix for all six models
+# ---------------------------------------------------------------------------
+
+print("\n" + "=" * 70)
+print("QUESTION 3a: CONFUSION MATRIX")
+print("=" * 70)
+
+model_predictions = {
+    "Decision Tree": decision_tree_predictions,
+    "Rule-Based": rule_based_predictions,
+    "Naive Bayes": naive_bayes_predictions,
+    "Logistic Regression": logistic_regression_predictions,
+    "KNN": knn_predictions,
+    "SVM": svm_predictions,
+}
+
+class_labels = [str(name) for name in iris_data.target_names]
+
+for model_name, predictions in model_predictions.items():
+    print(f"\n{model_name}:")
+    print(
+        tabulate(
+            confusion_matrix(y_test, predictions),
+            headers=class_labels,
+            showindex=class_labels,
+            tablefmt="fancy_grid",
+        )
+    )
