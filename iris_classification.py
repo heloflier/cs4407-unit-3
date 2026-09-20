@@ -18,6 +18,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support
 from tabulate import tabulate
+
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", None)
 
@@ -284,3 +285,28 @@ for model_name, (precision, recall, f1) in model_metrics.items():
             floatfmt=".2f",
         )
     )
+
+# ---------------------------------------------------------------------------
+# Step 13 / Question 4a: Summary comparison table across all models
+# ---------------------------------------------------------------------------
+# Consolidates the accuracy and macro F1 already computed above into one
+# table, to support the Question 4 comparison directly.
+
+print("\n" + "=" * 70)
+print("QUESTION 4a: MODEL COMPARISON SUMMARY")
+print("=" * 70)
+
+summary_rows = []
+for model_name, predictions in model_predictions.items():
+    accuracy = accuracy_score(y_test, predictions)
+    macro_f1 = model_metrics[model_name][2].mean()  # average F1 across the 3 classes
+    summary_rows.append([model_name, f"{accuracy:.4f}", f"{macro_f1:.4f}"])
+
+print(
+    "\n"
+    + tabulate(
+        summary_rows,
+        headers=["Model", "Accuracy", "Macro F1"],
+        tablefmt="fancy_grid",
+    )
+)
