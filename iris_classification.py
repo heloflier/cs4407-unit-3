@@ -16,7 +16,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support
 from tabulate import tabulate
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", None)
@@ -235,5 +235,52 @@ for model_name, predictions in model_predictions.items():
             headers=class_labels,
             showindex=class_labels,
             tablefmt="fancy_grid",
+        )
+    )
+
+# ---------------------------------------------------------------------------
+# Step 11 / Question 3b: Precision and recall for all six models
+# ---------------------------------------------------------------------------
+# Computed once per model and reused for Question 3c below, since
+# precision_recall_fscore_support returns all three together.
+
+print("\n" + "=" * 70)
+print("QUESTION 3b: PRECISION AND RECALL")
+print("=" * 70)
+
+model_metrics = {}
+for model_name, predictions in model_predictions.items():
+    precision, recall, f1, support = precision_recall_fscore_support(
+        y_test, predictions, labels=[0, 1, 2], zero_division=0
+    )
+    model_metrics[model_name] = (precision, recall, f1)
+
+for model_name, (precision, recall, f1) in model_metrics.items():
+    print(f"\n{model_name}:")
+    print(
+        tabulate(
+            {"Class": class_labels, "Precision": precision, "Recall": recall},
+            headers="keys",
+            tablefmt="fancy_grid",
+            floatfmt=".2f",
+        )
+    )
+
+# ---------------------------------------------------------------------------
+# Step 12 / Question 3c: F1-score for all six models
+# ---------------------------------------------------------------------------
+
+print("\n" + "=" * 70)
+print("QUESTION 3c: F1-SCORE")
+print("=" * 70)
+
+for model_name, (precision, recall, f1) in model_metrics.items():
+    print(f"\n{model_name}:")
+    print(
+        tabulate(
+            {"Class": class_labels, "F1-score": f1},
+            headers="keys",
+            tablefmt="fancy_grid",
+            floatfmt=".2f",
         )
     )
